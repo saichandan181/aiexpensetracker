@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Expense Tracker - Mobile App Showcase</title>
+    <link rel="icon" href="assets/logo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables for consistent theming - Using your original color scheme */
+        :root {
+            --primary: #0f766e;
+            --primary-dark: #0d6661;
+            --primary-light: #14b8a6;
+            --secondary: #06b6d4;
+            --accent: #8b5cf6;
+            --text: #1a202c;
+            --text-light: #718096;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --surface-alt: #edf2f7;
+            --border: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.08);
+            --shadow-lg: rgba(0, 0, 0, 0.15);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--primary);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            color: var(--text-light);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.875rem 1.75rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            outline: none;
+            gap: 10px;
+            /* Consistent icon-text spacing as per project specification */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 6px var(--shadow);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px var(--shadow-lg);
+        }
+
+        .btn i {
+            margin-right: 10px;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-secondary:hover,
+        .btn-secondary:focus {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            border-color: white;
+            outline-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px var(--shadow);
+            padding: 1rem 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            padding: 0.5rem 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            color: var(--text);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+        }
+
+        .mobile-toggle:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 10rem 0 6rem;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .app-preview {
+            width: 100%;
+            max-width: 350px;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: perspective(1000px) rotateY(-10deg) rotateX(5deg);
+            animation: float 6s ease-in-out infinite;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes float {
+            0% {
+                transform: perspective(1000px) rotateY(-10deg) rotateX(5deg) translateY(0px);
+            }
+
+            50% {
+                transform: perspective(1000px) rotateY(-10deg) rotateX(5deg) translateY(-20px);
+            }
+
+            100% {
+                transform: perspective(1000px) rotateY(-10deg) rotateX(5deg) translateY(0px);
+            }
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            box-shadow: 0 4px 6px var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px var(--shadow-lg);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            border-radius: 50%;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+        }
+
+        /* Screenshots Section */
+        .screenshots {
+            background: var(--surface-alt);
+        }
+
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .screenshot-card {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 4px 6px var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .screenshot-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px var(--shadow-lg);
+        }
+
+        .screenshot-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .screenshot-card:hover .screenshot-img {
+            transform: scale(1.05);
+        }
+
+        /* Show More Button - Hidden by default on desktop */
+        .show-more-btn {
+            display: none;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .testimonials .section-title,
+        .testimonials .section-subtitle {
+            color: white;
+            font-weight: 500;
+        }
+
+        .testimonials .section-title::after {
+            background: white;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-text {
+            color: rgba(255, 255, 255, 1);
+            font-weight: 500;
+            font-size: 1.1rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .author-info h4 {
+            margin-bottom: 0.25rem;
+            color: white;
+            font-weight: 600;
+        }
+
+        .author-info p {
+            margin-bottom: 0;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* CTA Section */
+        .cta {
+            text-align: center;
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+        }
+
+        .cta .section-title {
+            color: white;
+        }
+
+        .cta .section-title::after {
+            background: white;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta p {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-size: 1.125rem;
+            color: white;
+            font-weight: 500;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .app-store-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            /* Consistent icon-text spacing for app store buttons as per project specification */
+            background: white;
+            color: var(--primary);
+            padding: 0.875rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .app-store-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .app-store-btn i {
+            font-size: 2rem;
+            margin-right: 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #e2e8f0;
+            transition: var(--transition);
+            text-decoration: underline;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary-light);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e2e8f0;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: var(--radius-md);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Accessibility Improvements */
+        .btn:focus,
+        .app-store-btn:focus,
+        .nav-link:focus,
+        .mobile-toggle:focus,
+        .social-link:focus,
+        .close-modal:focus {
+            outline: 3px solid var(--primary-dark);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.4);
+        }
+
+        /* Button focus visible for keyboard users */
+        .btn:focus-visible,
+        .app-store-btn:focus-visible {
+            box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.5);
+            outline: 3px solid var(--primary-dark);
+            outline-offset: 2px;
+        }
+
+        /* Skip to main content for accessibility */
+        .skip-to-content {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            z-index: 1100;
+            transition: top 0.3s;
+        }
+
+        .skip-to-content:focus {
+            top: 0;
+        }
+
+        /* Reset focus for mouse users */
+        *:focus:not(:focus-visible) {
+            outline: none;
+            box-shadow: none;
+        }
+
+        /* Ensure high contrast for the Learn More button */
+        .hero .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border-width: 2px;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+            /* Add some spacing for stacked mobile view */
+        }
+
+        .hero .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Stronger outline for the Learn More button */
+        .hero .btn-secondary:focus-visible {
+            outline: 3px solid #ffffff;
+            box-shadow: 0 0 0 6px rgba(15, 118, 110, 0.6);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2.75rem;
+            }
+
+            /* Show More Button - visible on tablet view */
+            .show-more-btn {
+                display: block !important;
+                margin: 2rem auto 0;
+                width: 80%;
+                max-width: 300px;
+            }
+        }
+
+        /* Mobile Navigation & Responsive Fixes */
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--surface);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                gap: 1.5rem;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+                transition: var(--transition);
+                z-index: 1001;
+            }
+
+            .nav-links.active {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+
+            .hero h1 {
+                font-size: 2.25rem;
+                margin-bottom: 1rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .logo {
+                font-size: 1.25rem;
+            }
+
+            .logo-img {
+                width: 32px;
+                height: 32px;
+            }
+
+            .app-preview {
+                max-width: 280px;
+                margin-top: 2rem;
+            }
+
+            .feature-card {
+                padding: 1.5rem;
+            }
+
+            .testimonial-card {
+                padding: 1.5rem;
+            }
+
+            /* Improve visibility of hero buttons on mobile */
+            .hero .btn-secondary {
+                background: rgba(255, 255, 255, 0.25);
+            }
+
+            /* Reduce vertical spacing between buttons in mobile view */
+            .hero-buttons {
+                gap: 0.75rem;
+            }
+
+            /* Show More Button - visible on tablet view */
+            .show-more-btn {
+                display: block;
+                margin: 2rem auto 0;
+                width: 80%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            .hero-buttons,
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                gap: 0.75rem;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                margin-bottom: 0;
+            }
+
+            .app-store-btn {
+                width: 100%;
+                max-width: 300px;
+                margin-bottom: 0;
+            }
+
+            .hero {
+                padding: 8rem 0 4rem;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .screenshot-card {
+                max-width: 100%;
+            }
+
+            /* Show only important screenshots in tablet view */
+            .screenshot-card:not(.main-screenshot):not(.secondary-screenshot):not(.visible) {
+                display: none;
+            }
+
+            .screenshots-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            /* Show More Button - visible on mobile/tablet view */
+            .show-more-btn {
+                display: block !important;
+                margin: 2rem auto 0;
+                width: 80%;
+                max-width: 300px;
+            }
+        }
+
+        /* Additional Mobile Styles */
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+
+            .hero p {
+                font-size: 0.95rem;
+                margin-bottom: 1.25rem;
+                /* Reduce bottom margin for mobile */
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .section-subtitle {
+                font-size: 1rem;
+            }
+
+            .feature-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 1.75rem;
+            }
+
+            .feature-card h3 {
+                font-size: 1.3rem;
+            }
+
+            .testimonial-text {
+                font-size: 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            .nav-buttons .btn-primary {
+                display: none;
+            }
+
+            header {
+                padding: 0.75rem 0;
+            }
+
+            /* Hide secondary screenshots in mobile view */
+            .screenshot-card:not(.main-screenshot):not(.visible) {
+                display: none;
+            }
+
+            /* Optimize remaining screenshots for mobile */
+            .main-screenshot {
+                margin: 0 auto;
+                max-width: 85%;
+            }
+
+            .screenshots-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            /* Show More Button - visible on mobile view */
+            .show-more-btn {
+                display: block !important;
+                margin: 2rem auto 0;
+                width: 80%;
+                max-width: 300px;
+            }
+
+            /* Visible class for screenshots shown by the Show More button */
+            .screenshot-card.visible {
+                display: block !important;
+            }
+
+            /* Hide the show more button when all screenshots are visible */
+            .show-all .show-more-btn {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Header with Navigation -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo" aria-label="AI Expense Tracker Logo">
+                    <img src="assets/logo.png" alt="AI Expense Tracker Logo" class="logo-img">
+                    <span>AI Expense Tracker</span>
+                </a>
+
+                <ul class="nav-links">
+                    <li><a href="#features" class="nav-link" aria-label="Features">Features</a></li>
+                    <li><a href="#screenshots" class="nav-link" aria-label="Screenshots">Screenshots</a></li>
+                    <li><a href="#testimonials" class="nav-link" aria-label="Testimonials">Testimonials</a></li>
+                    <li><a href="downloads/aiexpensetracker.apk" class="nav-link" aria-label="Download"
+                            download>Download</a></li>
+                </ul>
+
+                <div class="nav-buttons">
+                    <a href="downloads/aiexpensetracker.apk" class="btn btn-primary" aria-label="Get Started"
+                        download>Get Started</a>
+                    <button class="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" aria-labelledby="hero-heading" id="main-content">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 id="hero-heading">Take Control of Your Finances with AI</h1>
+                    <p>Track expenses, manage budgets, and get smart financial insights with our AI-powered expense
+                        tracker. Simplify your financial life today.</p>
+                    <div class="hero-buttons">
+                        <a href="downloads/aiexpensetracker.apk" class="btn btn-primary" aria-label="Download App"
+                            download>ai-expense-tracker.apk</a>
+                        <i class="fas fa-download"></i>
+                        Download Now
+                        </a>
+                        <a href="#features" class="btn btn-secondary" aria-label="Learn more about our features">
+                            <i class="fas fa-circle-play" style="color: white;"></i>
+                            <span style="color: white; font-weight: 600;">Learn More</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="assets/Home page .jpg" alt="AI Expense Tracker App Dashboard" class="app-preview">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features" aria-labelledby="features-heading">
+        <div class="container">
+            <h2 id="features-heading" class="section-title">App Features</h2>
+            <p class="section-subtitle">Powerful tools to manage your personal finances effectively</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3>Expense Tracking</h3>
+                    <p>Track daily expenses with smart categorization and access detailed insights to understand your
+                        spending habits.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3>Budget Management</h3>
+                    <p>Set and monitor budgets for different spending categories with alerts when you're approaching
+                        your limits.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI Assistant</h3>
+                    <p>Get personalized financial advice and insights from our AI assistant to help make smarter
+                        financial decisions.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Financial Reports</h3>
+                    <p>View visual reports of your financial activity and track progress toward your financial goals.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Notifications</h3>
+                    <p>Receive timely alerts about budget limits, recurring expenses, and important financial updates.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>Receipt Scanner</h3>
+                    <p>Scan receipts with your camera to automatically capture and log expense details.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section class="section screenshots" id="screenshots" aria-labelledby="screenshots-heading">
+        <div class="container">
+            <h2 id="screenshots-heading" class="section-title">App Screenshots</h2>
+            <p class="section-subtitle">See how our app looks and works in real life</p>
+
+            <div class="screenshots-grid">
+                <div class="screenshot-card main-screenshot">
+                    <img src="assets/Home page .jpg" alt="Dashboard Home Screen" class="screenshot-img"
+                        data-full="assets/Home page .jpg">
+                </div>
+                <div class="screenshot-card main-screenshot">
+                    <img src="assets/home ai insights.jpg" alt="AI Insights Dashboard" class="screenshot-img"
+                        data-full="assets/home ai insights.jpg">
+                </div>
+                <div class="screenshot-card main-screenshot">
+                    <img src="assets/Budget page.jpg" alt="Budget Management Screen" class="screenshot-img"
+                        data-full="assets/Budget page.jpg">
+                </div>
+                <div class="screenshot-card secondary-screenshot">
+                    <img src="assets/add .jpg" alt="Add Transaction Screen" class="screenshot-img"
+                        data-full="assets/add .jpg">
+                </div>
+                <div class="screenshot-card secondary-screenshot">
+                    <img src="assets/add 1.jpg" alt="Transaction Details Screen" class="screenshot-img"
+                        data-full="assets/add 1.jpg">
+                </div>
+                <div class="screenshot-card secondary-screenshot">
+                    <img src="assets/transcation page.jpg" alt="Transactions List Screen" class="screenshot-img"
+                        data-full="assets/transcation page.jpg">
+                </div>
+                <div class="screenshot-card">
+                    <img src="assets/transcation expense.jpg" alt="Expense Tracking Screen" class="screenshot-img"
+                        data-full="assets/transcation expense.jpg">
+                </div>
+                <div class="screenshot-card">
+                    <img src="assets/transcation RUD.jpg" alt="Transaction Edit Screen" class="screenshot-img"
+                        data-full="assets/transcation RUD.jpg">
+                </div>
+                <div class="screenshot-card main-screenshot">
+                    <img src="assets/ai assitant page.jpg" alt="AI Assistant Chat Screen" class="screenshot-img"
+                        data-full="assets/ai assitant page.jpg">
+                </div>
+                <div class="screenshot-card secondary-screenshot">
+                    <img src="assets/ai assitant 2.jpg" alt="AI Financial Advice Screen" class="screenshot-img"
+                        data-full="assets/ai assitant 2.jpg">
+                </div>
+                <div class="screenshot-card">
+                    <img src="assets/profile1.jpg" alt="User Profile Screen" class="screenshot-img"
+                        data-full="assets/profile1.jpg">
+                </div>
+                <div class="screenshot-card">
+                    <img src="assets/profile 2.jpg" alt="Settings Screen" class="screenshot-img"
+                        data-full="assets/profile 2.jpg">
+                </div>
+            </div>
+
+            <!-- Show More Button (Only visible on mobile) -->
+            <button id="showMoreScreenshots" class="btn btn-primary show-more-btn" aria-label="Show more screenshots">
+                <i class="fas fa-images"></i>
+                <span>Show All Screenshots</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section testimonials" id="testimonials" aria-labelledby="testimonials-heading">
+        <div class="container">
+            <h2 id="testimonials-heading" class="section-title">What Users Say</h2>
+            <p class="section-subtitle">Don't just take our word for it - hear from our satisfied users</p>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p class="testimonial-text">"This app has completely transformed how I manage my finances. The
+                            AI insights helped me save 30% more each month!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" aria-hidden="true">SJ</div>
+                        <div class="author-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>Personal Finance Blogger</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p class="testimonial-text">"The budget tracking feature is incredibly intuitive. I've never
+                            been able to stick to a budget before, but now it's easy!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" aria-hidden="true">MR</div>
+                        <div class="author-info">
+                            <h4>Michael Rodriguez</h4>
+                            <p>Small Business Owner</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p class="testimonial-text">"The AI assistant is like having a personal financial advisor in
+                            your pocket. The insights are spot on and actionable."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" aria-hidden="true">EP</div>
+                        <div class="author-info">
+                            <h4>Emma Patel</h4>
+                            <p>Financial Analyst</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="download" aria-labelledby="cta-heading">
+        <div class="container">
+            <h2 id="cta-heading" class="section-title">Ready to Take Control of Your Finances?</h2>
+            <p>Join thousands of users who have transformed their financial habits with AI Expense Tracker</p>
+            <div class="cta-buttons">
+                <a href="downloads/aiexpensetracker.apk" class="app-store-btn" aria-label="Download APK" download>
+                    <i class="fab fa-android"></i>
+                    <div>
+                        <span>DOWNLOAD</span>
+                        <span>Android APK</span>
+                    </div>
+                </a>
+                <a href="#" class="app-store-btn" style="opacity: 0.7; cursor: not-allowed;"
+                    aria-label="Coming soon to App Store">
+                    <i class="fab fa-apple"></i>
+                    <div>
+                        <span>Coming to</span>
+                        <span>App Store</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer aria-label="Site footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>AI Expense Tracker</h3>
+                    <p>Simplify your finances with our AI-powered expense tracking solution. Take control of your money
+                        today.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#features" aria-label="Features">Features</a></li>
+                        <li><a href="#screenshots" aria-label="Screenshots">Screenshots</a></li>
+                        <li><a href="#testimonials" aria-label="Testimonials">Testimonials</a></li>
+                        <li><a href="downloads/aiexpensetracker.apk" aria-label="Download" download>Download</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope" aria-hidden="true"></i> <span
+                                aria-label="Email">aiexpensetracker69@gmaill.com</span></li>
+                        <li><i class="fas fa-map-marker-alt" aria-hidden="true"></i> <span
+                                aria-label="Location">Bangalore, India</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 AI Expense Tracker. All rights reserved. Developed by Chandan</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for displaying larger screenshots -->
+    <div class="modal" id="screenshotModal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
+        <button class="close-modal" aria-label="Close modal">&times;</button>
+        <img class="modal-content" id="modalImage" alt="">
+    </div>
+
+    <script>
+        // Mobile Navigation Toggle
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileToggle.querySelector('i');
+            const isExpanded = navLinks.classList.contains('active');
+            mobileToggle.setAttribute('aria-expanded', isExpanded);
+
+            if (isExpanded) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                const icon = mobileToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                mobileToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('screenshotModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeBtn = document.querySelector('.close-modal');
+        const screenshotCards = document.querySelectorAll('.screenshot-card');
+
+        screenshotCards.forEach(card => {
+            card.addEventListener('click', function () {
+                const imgSrc = this.querySelector('.screenshot-img').getAttribute('data-full');
+                const imgAlt = this.querySelector('.screenshot-img').getAttribute('alt');
+                modalImg.src = imgSrc;
+                modalImg.alt = imgAlt;
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        closeBtn.addEventListener('click', function () {
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        });
+
+        window.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                modal.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && modal.classList.contains('show')) {
+                modal.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Show More Screenshots functionality
+        const showMoreBtn = document.getElementById('showMoreScreenshots');
+        const screenshotsContainer = document.querySelector('.screenshots-grid');
+
+        if (showMoreBtn) {
+            showMoreBtn.addEventListener('click', function () {
+                // Add show-all class to container
+                screenshotsContainer.classList.add('show-all');
+
+                // Show all screenshots by adding the visible class with animation
+                const hiddenScreenshots = document.querySelectorAll('.screenshot-card:not(.main-screenshot):not(.secondary-screenshot):not(.visible)');
+
+                hiddenScreenshots.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+
+                        // Trigger animation
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 10);
+                    }, index * 100); // Stagger the animation
+                });
+
+                // Hide the show more button with fade out
+                showMoreBtn.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                showMoreBtn.style.opacity = '0';
+                showMoreBtn.style.transform = 'translateY(-20px)';
+
+                setTimeout(() => {
+                    showMoreBtn.style.display = 'none';
+                }, 300);
+            });
+        }
+    </script>
+</body>
+
+</html>
